@@ -3,10 +3,15 @@ import cors from "cors";
 import { nanoid } from "nanoid";
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+
+// Root route for quick test
+app.get("/", (req, res) => {
+  res.send("Resomax API is running 🚀");
+});
 
 // Hardcoded trips with image URLs
 const trips = [
@@ -105,6 +110,6 @@ app.get("/api/bookings", (req, res) => {
   res.json(bookings);
 });
 
-app.listen(PORT, () => {
-  console.log(`Backend running at http://localhost:${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Backend running at http://0.0.0.0:${PORT}`);
 });
