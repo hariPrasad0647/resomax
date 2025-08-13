@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+const API_URL = process.env.REACT_APP_API_URL; // ✅ Uses .env
+
 function BookingForm({ trip, onBookingComplete, onCancel }) {
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
@@ -14,7 +16,7 @@ function BookingForm({ trip, onBookingComplete, onCancel }) {
     }
 
     try {
-      const res = await fetch('http://localhost:5000/api/book', {
+      const res = await fetch(`${API_URL}/api/book`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -27,12 +29,10 @@ function BookingForm({ trip, onBookingComplete, onCancel }) {
       const data = await res.json();
 
       if (res.ok) {
-        // Show backend message
         setMessage({ text: data.message || 'Booking confirmed!', type: 'success' });
         setName('');
         setDate('');
 
-        // Wait 2 seconds before calling onBookingComplete
         setTimeout(() => {
           setMessage({ text: '', type: '' });
           onBookingComplete();

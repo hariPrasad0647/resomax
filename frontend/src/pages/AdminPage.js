@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
+const API_URL = process.env.REACT_APP_API_URL; // ✅ from .env
+
 function AdminPage() {
   const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/bookings')
+    fetch(`${API_URL}/api/bookings`)
       .then(res => res.json())
       .then(data => setBookings(data))
       .catch(err => console.error(err));

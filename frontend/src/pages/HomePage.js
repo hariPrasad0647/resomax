@@ -2,16 +2,18 @@ import React, { useState, useEffect } from 'react';
 import TripCard from '../components/TripCard';
 import BookingForm from '../components/BookingForm';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 function HomePage() {
   const [trips, setTrips] = useState([]);
   const [selectedTrip, setSelectedTrip] = useState(null);
   const [bookingMessage, setBookingMessage] = useState({ text: '', type: '' });
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/trips')
+    fetch(`${API_URL}/api/trips`)
       .then(res => res.json())
       .then(data => setTrips(data))
-      .catch(err => console.error(err));
+      .catch(err => console.error("Error fetching trips:", err));
   }, []);
 
   const handleBookingComplete = (message) => {
@@ -26,7 +28,6 @@ function HomePage() {
     <div>
       <h1>Trip Plans</h1>
 
-      {/* Show success message */}
       {bookingMessage.text && (
         <p
           style={{
@@ -48,7 +49,7 @@ function HomePage() {
       {selectedTrip && (
         <BookingForm
           trip={selectedTrip}
-          onBookingComplete={handleBookingComplete} // pass message up
+          onBookingComplete={handleBookingComplete}
           onCancel={() => setSelectedTrip(null)}
         />
       )}
